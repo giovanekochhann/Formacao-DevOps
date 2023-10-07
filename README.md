@@ -50,9 +50,9 @@ https://docs.docker.com/engine/reference/builder/
 
 FROM node:14
 WORKDIR /app-node
-ARG PORT_BUILD=6000      // cria variavel de ambiente permitindo personalizar a porta pelo docker file inserindo a informação no codigo da aplicação no momento do build
-ENV PORT=$PORT_BUILD      // permite o mesmo mapeamento do args em execucao alem do build
-EXPOSE $PORT_BUILD      // mostra que a aplicação esta exposta na porta 3000
+ARG PORT_BUILD=6000     cria variavel de ambiente permitindo personalizar a porta pelo docker file inserindo a informação no codigo da aplicação no momento do build
+ENV PORT=$PORT_BUILD    permite o mesmo mapeamento do args em execucao alem do build
+EXPOSE $PORT_BUILD      mostra que a aplicação esta exposta na porta 3000
 COPY . . 
 RUN npm install
 ENTRYPOINT npm start
