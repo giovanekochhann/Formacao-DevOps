@@ -2,13 +2,13 @@
 
 Formação em DevOps
 
-1 - Virtualização e provisionamento
+## 1 - Virtualização e provisionamento
 O que é IaC
 Terraform
 Ansible
 AWS 
 
-2 - Dominar conteinerização
+## 2 - Dominar conteinerização
 Docker
 hub.docker.com
 $docker run hello-world
@@ -38,7 +38,6 @@ $ docker images ls --> lista conteiners baixados
 $ docker inspect id --> detalhamento interno do conteiner
 $ docker history id --> mostra camadas de um conteiner
 
-
 Docker reutiliza camadas entre imagens.
 Uma vez que exista uma imagem ela é fechada, imutável.
 Um conteiner quando roda ele é read only. O que gravamos nele é apenas uma camada adicional que o docker adiciona mas a imagem original não é alterada.
@@ -51,12 +50,46 @@ https://docs.docker.com/engine/reference/builder/
 
 FROM node:14
 WORKDIR /app-node
+ARG PORT_BUILD=6000      // cria variavel de ambiente permitindo personalizar a porta pelo docker file inserindo a informação no codigo da aplicação no momento do build
+ENV PORT=$PORT_BUILD      // permite o mesmo mapeamento do args em execucao alem do build
+EXPOSE $PORT_BUILD      // mostra que a aplicação esta exposta na porta 3000
 COPY . . 
 RUN npm install
 ENTRYPOINT npm start
 $ docker build -t  ./app-node:1.0
 
+Se deseja parar todos os containeres em execução:
+$ docker stop $(docker container ls -q)
 
-3 - Integração e entrega continua
+PUSH da imagem para o DOCKER HUB
+Autenticar usuario docker hub via terminal:
+$ docker login -u [nome do usuario]
+#Password: *******
 
-4 - Monitoramento
+cria uma copia da build, trocando o nome do repositorio para que haja match entre o nome de usuario do docker hub
+$ docker tag danialartine/app-node:1.0 aluradocker/app-node:1.0 ----> aluradocker = usuario docker hub
+$ docker push aluradocker/app-node:1.0
+DOCKER HUB É UM GITHUB PARA CONTEINERES
+O versionamento apenas atualiza as camadas do conteiner atualizadas de uma versao para outra.
+
+### Persistencia de dados nos containeres:
+- Bind Mounts: 
+utilização de diretorio local da maquina host linkado com diretorio de dentro do container
+$ docker run -it -v /home/gk/volume-docker:/app ubuntu bash
+$ docker run -it --mount type=bind,source=/home/gk/volume-docker,target=/app ubuntu bash
+
+- Volume (gerenciado pelo docker - nao fica dependente do sistema de arquivos, docker ajuda a gerenciar)
+$ docker volume create meu-volume
+$ docker run -it -v meu-volume:/app ubuntu bash
+$ docker run -it --mount source=meu-novo-volume,target=/app ubuntu bash (cria o volume caso nao exista)
+
+- Memory (tmpfs - so funciona no linux - dados sensiveis nao escritos na camada RW - ex. senha)
+$ docker run -it --tmpfs=/app ubuntu bash
+$ docker run -it --mount type=tmpfs,destination=/app ubuntu bash
+
+### Comunicação atraves de redes
+
+
+## 3 - Integração e entrega continua
+
+## 4 - Monitoramento
