@@ -9,6 +9,8 @@ Ansible
 AWS 
 
 ## 2 - Dominar conteinerização
+Instalação do docker sempre deve ser feita seguindo o script do site oficial, nao usar wget nem snap, usar apt-get and repositorio especifico.
+
 Docker
 hub.docker.com
 $docker run hello-world
@@ -88,7 +90,6 @@ $ docker run -it --tmpfs=/app ubuntu bash
 $ docker run -it --mount type=tmpfs,destination=/app ubuntu bash
 
 ### Comunicação atraves de redes
-
 
 ## 3 - Integração e entrega continua
 
