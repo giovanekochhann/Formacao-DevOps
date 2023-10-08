@@ -25,7 +25,7 @@ $ docker run -d -p 8080:80 dockersamples/static-site
 -p mapeia portas especificas de uso do conteiner para a maquina local
 -P mapeia as portas automaticamente geralmente determina portas altas para redirecionamento
 este conteiner mostra um HTML rodando pelo servidor NGINX
-
+'''
 comandos abaixo devem ser seguido do id_conteiner para identificar de qual conteiner estamos falando.
 $ docker run -it ubuntu bash --> abre versao interativa de terminal com imagem do ubuntu
 $ docker exec --> executa comando em cima de conteiner que ja esta rodando
@@ -39,7 +39,7 @@ $ docker (un)pause --> comandos que pausam e retomam a pausa quando desejado
 $ docker images ls --> lista conteiners baixados
 $ docker inspect id --> detalhamento interno do conteiner
 $ docker history id --> mostra camadas de um conteiner
-
+'''
 Docker reutiliza camadas entre imagens.
 Uma vez que exista uma imagem ela é fechada, imutável.
 Um conteiner quando roda ele é read only. O que gravamos nele é apenas uma camada adicional que o docker adiciona mas a imagem original não é alterada.
@@ -89,8 +89,17 @@ $ docker run -it --mount source=meu-novo-volume,target=/app ubuntu bash (cria o 
 $ docker run -it --tmpfs=/app ubuntu bash
 $ docker run -it --mount type=tmpfs,destination=/app ubuntu bash
 
+comando para rodar container definindo o nome
+$ docker run -it --name 'nome_desejado_sem aspas' ubuntu bash
+
 ### Comunicação atraves de redes
+criar rede para comunicação de containers
+$ docker network create --drive bridge minha-bridge
+
+criar container definindo nome e rede
+$ docker run -it --name 'nome_desejado_sem aspas' --network 'minha-bridge-sem-aspas' ubuntu bash
 
 ## 3 - Integração e entrega continua
+
 
 ## 4 - Monitoramento
